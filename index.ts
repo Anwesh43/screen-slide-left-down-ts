@@ -183,3 +183,25 @@ class ScreenSlideLeftDown {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    ssld : ScreenSlideLeftDown = new ScreenSlideLeftDown()
+    animator : Animator = new Animator()
+    
+    render(context : CanvasRenderingContext2D) {
+        this.ssld.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.ssld.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.ssld.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
